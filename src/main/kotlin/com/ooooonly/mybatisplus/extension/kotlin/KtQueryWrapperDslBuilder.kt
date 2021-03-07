@@ -2,7 +2,6 @@ package com.ooooonly.mybatisplus.extension.kotlin
 
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import java.util.function.Consumer
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 /**
@@ -12,138 +11,106 @@ import kotlin.reflect.KProperty
  * @author ooooonly
  * @version
  */
-class KtQueryWrapperDslBuilder<T : Any>(baseClass: KClass<T>,val baseWrapper: KtQueryWrapper<T>) {
+@Suppress("unused")
+class KtQueryWrapperDslBuilder<T : Any>(val baseWrapper: KtQueryWrapper<T>) {
 
-    infix fun KProperty<*>.eq(value: Any?) {
-        baseWrapper.eq(this, value)
-    }
-
+    infix fun KProperty<*>.eq(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.eq(this@eq, value) }
     infix fun KProperty<*>.`==`(value: Any?) = eq(value)
 
-    infix fun KProperty<*>.eqIfNotNull(value: Any?) {
-        baseWrapper.eq(value != null,this, value)
-    }
-
+    infix fun KProperty<*>.eqIfNotNull(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.eq(value != null,this@eqIfNotNull, value) }
     infix fun KProperty<*>.`?=`(value: Any?) = eqIfNotNull(value)
 
-    infix fun KProperty<*>.ne(value: Any?) {
-        baseWrapper.ne(this, value)
-    }
-
+    infix fun KProperty<*>.ne(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.ne(this@ne, value) }
     infix fun KProperty<*>.`!=`(value: Any?) = ne(value)
 
-    infix fun KProperty<*>.gt(value: Any?) {
-        baseWrapper.gt(this, value)
-    }
-
+    infix fun KProperty<*>.gt(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.gt(this@gt, value) }
     infix fun KProperty<*>.`)`(value: Any?) = gt(value)
 
-    infix fun KProperty<*>.ge(value: Any?) {
-        baseWrapper.ge(this, value)
-    }
-
+    infix fun KProperty<*>.ge(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.ge(this@ge, value) }
     infix fun KProperty<*>.`)=`(value: Any?) = ge(value)
 
-    infix fun KProperty<*>.lt(value: Any?) {
-        baseWrapper.lt(this, value)
-    }
-
+    infix fun KProperty<*>.lt(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.lt(this@lt, value) }
     infix fun KProperty<*>.`(`(value: Any?) = lt(value)
 
-    infix fun KProperty<*>.le(value: Any?) {
-        baseWrapper.le(this, value)
-    }
-
+    infix fun KProperty<*>.le(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.le(this@le, value) }
     infix fun KProperty<*>.`(=`(value: Any?) = le(value)
 
-    infix fun KProperty<*>.like(value: Any?) {
-        baseWrapper.like(this, value)
-    }
-
+    infix fun KProperty<*>.like(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.like(this@like, value) }
     infix fun KProperty<*>.`~=`(value: Any?) = like(value)
 
-    infix fun KProperty<*>.notLike(value: Any?) {
-        baseWrapper.notLike(this, value)
-    }
-
+    infix fun KProperty<*>.notLike(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.notLike(this@notLike, value) }
     infix fun KProperty<*>.`!~=`(value: Any?) = notLike(value)
 
-    infix fun KProperty<*>.likeLeft(value: Any?) {
-        baseWrapper.likeLeft(this, value)
-    }
-
+    infix fun KProperty<*>.likeLeft(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.likeLeft(this@likeLeft, value) }
     infix fun KProperty<*>.`~=(`(value: Any?) = likeLeft(value)
 
-    infix fun KProperty<*>.likeRight(value: Any?) {
-        baseWrapper.likeRight(this, value)
-    }
-
+    infix fun KProperty<*>.likeRight(value: Any?) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.likeRight(this@likeRight, value) }
     infix fun KProperty<*>.`~=)`(value: Any?) = likeRight(value)
 
-    infix fun <T: Any?,R: Any?> KProperty<*>.between(valuePair: Pair<T,R>) {
-        baseWrapper.between(this, valuePair.first, valuePair.second)
-    }
-
+    infix fun <T: Any?,R: Any?> KProperty<*>.between(valuePair: Pair<T,R>) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.between(this@between, valuePair.first, valuePair.second) }
     infix fun <T: Any?,R: Any?> KProperty<*>.`()`(valuePair: Pair<T,R>) = between(valuePair)
 
-    infix fun <T: Any?,R: Any?> KProperty<*>.notBetween(valuePair: Pair<T,R>) {
-        baseWrapper.notBetween(this, valuePair.first, valuePair.second)
-    }
-
+    infix fun <T: Any?,R: Any?> KProperty<*>.notBetween(valuePair: Pair<T,R>) = this@KtQueryWrapperDslBuilder.apply { baseWrapper.notBetween(this@notBetween, valuePair.first, valuePair.second) }
     infix fun <T: Any?,R: Any?> KProperty<*>.`!()`(valuePair: Pair<T,R>) = notBetween(valuePair)
 
-    fun and(condition: Boolean, consumer: Consumer<KtQueryWrapperDslBuilder<T>>) {
-        baseWrapper.and(condition) {
-            consumer.accept(this)
+    /**
+     * AND
+     */
+
+    //左部无条件或单条件-右部嵌套条件
+    infix fun and(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) = apply {
+        baseWrapper.and(true) { consumer(newInstance(it)) }
+    }
+    infix fun `&&`(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) = and(consumer)
+
+    //左部无条件或单条件-右部单条件
+    infix fun and(right: KtQueryWrapperDslBuilder<T>) = this
+    infix fun `&&`(right: KtQueryWrapperDslBuilder<T>) = this
+
+    //左部嵌套条件-右部嵌套条件
+    infix fun (KtQueryWrapperDslBuilder<T>.() -> Unit).and(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) =
+        this@KtQueryWrapperDslBuilder.nested(this@and).apply {
+            baseWrapper.and(true) { consumer(newInstance(it)) }
         }
+    infix fun (KtQueryWrapperDslBuilder<T>.() -> Unit).`&&`(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) = this@`&&`.and(consumer)
+
+    //单行占位式
+    fun and() = this
+    fun `&&`() = this
+    val and get() = this
+    val `&&` get() = this
+
+    /**
+     * OR
+     */
+
+    //左部无条件或单条件-右部嵌套条件
+    infix fun or(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) = this@KtQueryWrapperDslBuilder.apply {
+        baseWrapper.or(true) { consumer(newInstance(it)) }
     }
+    infix fun `||`(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) = or(consumer)
 
-    fun `&&`(condition: Boolean, consumer: Consumer<KtQueryWrapperDslBuilder<T>>) = and(condition, consumer)
-
-    fun and(consumer: Consumer<KtQueryWrapperDslBuilder<T>>) {
-        and(true,consumer)
-    }
-
-    fun `&&`(consumer: Consumer<KtQueryWrapperDslBuilder<T>>) = and(consumer)
-
-    fun or(condition: Boolean, consumer: Consumer<KtQueryWrapperDslBuilder<T>>) {
-        baseWrapper.or(condition) {
-            consumer.accept(this)
+    //左部嵌套条件-右部嵌套条件
+    infix fun (KtQueryWrapperDslBuilder<T>.() -> Unit).or(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) =
+        this@KtQueryWrapperDslBuilder.nested(this@or).apply {
+            baseWrapper.or(true) { consumer(newInstance(it)) }
         }
-    }
+    infix fun (KtQueryWrapperDslBuilder<T>.() -> Unit).`||`(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) = this.or(consumer)
 
-    fun `||`(condition: Boolean, consumer: Consumer<KtQueryWrapperDslBuilder<T>>) = or(condition, consumer)
-
-    fun or(consumer: Consumer<KtQueryWrapperDslBuilder<T>>) {
-        or(true,consumer)
-    }
-
-    fun `||`(consumer: Consumer<KtQueryWrapperDslBuilder<T>>) = or(consumer)
-
-    fun or(condition: Boolean) {
-        baseWrapper.or(condition)
-    }
-
-    fun `||`(condition: Boolean) = or(condition)
-
-    fun or() {
-        or(true)
-    }
-
+    //单行占位式
+    fun or() = apply { baseWrapper.or(true) }
     fun `||`() = or()
+    val or get() = or()
+    val `||` get() = or()
 
-    fun nested(condition: Boolean, consumer: Consumer<KtQueryWrapperDslBuilder<T>>) {
-        baseWrapper.nested(condition) {
-            consumer.accept(this)
-        }
+
+    /**
+     * 生成嵌套条件
+     */
+    infix fun nested(consumer: KtQueryWrapperDslBuilder<T>.() -> Unit) = apply {
+       baseWrapper.nested(true) { consumer(newInstance(it)) }
     }
 
-    fun `^^`(condition: Boolean, consumer: Consumer<KtQueryWrapperDslBuilder<T>>) = nested(condition,consumer)
-
-    fun nested(consumer: Consumer<KtQueryWrapperDslBuilder<T>>) {
-        nested(true,consumer)
-    }
-
-    fun `^^`(consumer: Consumer<KtQueryWrapperDslBuilder<T>>) = nested(consumer)
+    private fun newInstance(baseWrapper:KtQueryWrapper<T>) = KtQueryWrapperDslBuilder(baseWrapper)
 
 }
