@@ -1,12 +1,6 @@
 # mybatis-plus-ktx
  为mybatis-plus提供kotlin dsl构建支持
 
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/only52607/mybatis-plus-ktx Build?style=flat-square">
-
-<img alt="GitHub issues" src="https://img.shields.io/github/issues/only52607/mybatis-plus-ktx?style=flat-square">
-
-<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/only52607/mybatis-plus-ktx?style=flat-square">
-
 # 特性
 - 在kotlin中使用接近sql的语法编写mp查询wrapper，简单的示例：
 
