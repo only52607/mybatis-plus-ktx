@@ -1,9 +1,9 @@
-package com.ooooonly.mybatisplus.extension.kotlin
+package com.github.only52607.mybatis.plus.ktx.core.extensions
 
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
-import com.ooooonly.mybatisplus.dsl.KtQueryWrapperDslBuilder
-import com.ooooonly.mybatisplus.dsl.KtUpdateWrapperDslBuilder
+import com.github.only52607.mybatis.plus.ktx.core.dsl.KtQueryWrapperDslBuilder
+import com.github.only52607.mybatis.plus.ktx.core.dsl.KtUpdateWrapperDslBuilder
 
 /**
  * ClassName: KtQueryWrapperDslBuilderExtensions

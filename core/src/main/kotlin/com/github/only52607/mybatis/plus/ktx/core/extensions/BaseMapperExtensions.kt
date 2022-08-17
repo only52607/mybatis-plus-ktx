@@ -1,9 +1,9 @@
-package com.ooooonly.mybatisplus.extension.kotlin
+package com.github.only52607.mybatis.plus.ktx.core.extensions
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.baomidou.mybatisplus.core.metadata.IPage
-import com.ooooonly.mybatisplus.dsl.KtQueryWrapperDslBuilder
-import com.ooooonly.mybatisplus.dsl.KtUpdateWrapperDslBuilder
+import com.github.only52607.mybatis.plus.ktx.core.dsl.KtQueryWrapperDslBuilder
+import com.github.only52607.mybatis.plus.ktx.core.dsl.KtUpdateWrapperDslBuilder
 
 /**
  * ClassName: BaseMapperExtensions
@@ -48,7 +48,7 @@ inline fun <reified T : Any> BaseMapper<T>.selectOne(wrapper: KtQueryWrapperDslB
  *
  * @param queryWrapper 实体对象封装操作类（可以为 null）
  */
-inline fun <reified T : Any> BaseMapper<T>.selectCount(wrapper: KtQueryWrapperDslBuilder<T>.() -> Unit): Int? {
+inline fun <reified T : Any> BaseMapper<T>.selectCount(wrapper: KtQueryWrapperDslBuilder<T>.() -> Unit): Long? {
     return selectCount(buildKtQueryWrapper(wrapper))
 }
 

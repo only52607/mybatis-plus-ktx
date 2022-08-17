@@ -1,30 +1,50 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-plugins {
-    kotlin("jvm") version "1.4.21"
+buildscript {
+    repositories {
+        maven("https://maven.aliyun.com/repository/gradle-plugin")
+        maven("https://maven.aliyun.com/repository/public")
+        maven("https://maven.aliyun.com/repository/spring-plugin")
+        maven("https://jitpack.io")
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:1.6.21")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:1.6.21")
+    }
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.21")
-    implementation("org.springframework.boot:spring-boot-dependencies:2.4.1")
+plugins {
+    kotlin("jvm") version "1.6.21"
 }
 
 allprojects {
+    group = "com.github.only52607.mybatis.plus.ktx"
+    version = "1.0"
     repositories {
-        maven("http://maven.aliyun.com/nexus/content/groups/public/")
-        maven("http://maven.aliyun.com/nexus/content/groups/spring/")
-        maven("http://maven.aliyun.com/nexus/content/repositories/jcenter")
-        maven("http://maven.aliyun.com/nexus/content/repositories/google")
-        maven("http://maven.aliyun.com/nexus/content/repositories/gradle-plugin")
+        maven ("https://maven.aliyun.com/repository/public")
+        maven ("https://maven.aliyun.com/repository/google")
+        maven ("https://jitpack.io")
         mavenCentral()
     }
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
     }
-    group = "com.ooooonly"
-    version = "1.0"
 }
 
-tasks.test {
-    useJUnit()
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "kotlin-noarg")
+    apply(plugin = "kotlin-allopen")
+    apply(plugin = "kotlin-spring")
+    dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+        implementation(kotlin("reflect"))
+    }
+
+    tasks.test {
+        useJUnitPlatform()
+    }
 }

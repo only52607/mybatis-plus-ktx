@@ -1,4 +1,4 @@
-package com.ooooonly.mybatisplus.dsl
+package com.github.only52607.mybatis.plus.ktx.core.dsl
 
 import com.baomidou.mybatisplus.extension.kotlin.AbstractKtWrapper
 import kotlin.reflect.KProperty

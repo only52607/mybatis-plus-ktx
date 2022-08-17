@@ -1,9 +1,9 @@
-package com.ooooonly.mybatisplus.extension.kotlin
+package com.github.only52607.mybatis.plus.ktx.core.extensions
 
 import com.baomidou.mybatisplus.core.metadata.IPage
 import com.baomidou.mybatisplus.extension.service.IService
-import com.ooooonly.mybatisplus.dsl.KtQueryWrapperDslBuilder
-import com.ooooonly.mybatisplus.dsl.KtUpdateWrapperDslBuilder
+import com.github.only52607.mybatis.plus.ktx.core.dsl.KtQueryWrapperDslBuilder
+import com.github.only52607.mybatis.plus.ktx.core.dsl.KtUpdateWrapperDslBuilder
 import java.util.*
 import java.util.function.Function
 
@@ -89,7 +89,7 @@ inline fun <reified T: Any,V> IService<T>.getObj(wrapper: KtQueryWrapperDslBuild
  *
  * @param queryWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
  */
-inline fun <reified T: Any> IService<T>.count(wrapper: KtQueryWrapperDslBuilder<T>.() -> Unit): Int {
+inline fun <reified T: Any> IService<T>.count(wrapper: KtQueryWrapperDslBuilder<T>.() -> Unit): Long {
     return count(buildKtQueryWrapper(wrapper))
 }
 

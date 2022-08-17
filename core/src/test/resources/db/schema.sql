@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `t_user`;
+
+CREATE TABLE `t_user`
+(
+    `id`    INT NOT NULL COMMENT '主键ID',
+    `name`  VARCHAR(30) NULL DEFAULT NULL COMMENT '姓名',
+    `age`   INT NULL DEFAULT NULL COMMENT '年龄',
+    `email` VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
+    PRIMARY KEY (`id`)
+);

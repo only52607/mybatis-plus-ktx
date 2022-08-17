@@ -1,4 +1,4 @@
-package com.ooooonly.mybatisplus.dsl
+package com.github.only52607.mybatis.plus.ktx.core.dsl
 
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper
 
@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.conditions.AbstractWrapper
  * @author ooooonly
  * @version
  */
-@Suppress("UNUSED","UNCHECKED_CAST", "DANGEROUS_CHARACTERS")
+@Suppress("UNUSED", "UNCHECKED_CAST", "DANGEROUS_CHARACTERS")
 abstract class AbstractWrapperDslBuilder<T, C, W : AbstractWrapper<T, C, W>, Children : AbstractWrapperDslBuilder<T, C, W, Children>>
     (val baseWrapper: W) {
     /**
@@ -122,11 +122,11 @@ abstract class AbstractWrapperDslBuilder<T, C, W : AbstractWrapper<T, C, W>, Chi
     operator fun Collection<*>.contains(column: C): Boolean = false.also { column `in` this@contains }
     operator fun String.contains(column: C): Boolean = false.also { column `in` this@contains }
 
-    fun groupBy(vararg columns: C): Children =
-        typedThis.apply { baseWrapper.groupBy(*columns) }
-
-    fun `group by`(vararg columns: C): Children =
-        typedThis.apply { baseWrapper.groupBy(*columns) }
+//    fun groupBy(vararg columns: C): Children =
+//        typedThis.apply { baseWrapper.groupBy(*columns) }
+//
+//    fun `group by`(vararg columns: C): Children =
+//        typedThis.apply { baseWrapper.groupBy(*columns) }
 
     infix fun groupBy(column: C): Children =
         typedThis.apply { baseWrapper.groupBy(column) }
@@ -146,8 +146,8 @@ abstract class AbstractWrapperDslBuilder<T, C, W : AbstractWrapper<T, C, W>, Chi
     fun having(sql: String, vararg params: Any): Children =
         typedThis.apply { baseWrapper.having(sql, *params) }
 
-    fun orderBy(isAsc: Boolean, vararg columns: C): Children =
-        typedThis.apply { baseWrapper.orderBy(true, isAsc, *columns) }
+//    fun orderBy(isAsc: Boolean, vararg columns: C): Children =
+//        typedThis.apply { baseWrapper.orderBy(true, isAsc, *columns) }
 
     /**
      * 自定义sql
